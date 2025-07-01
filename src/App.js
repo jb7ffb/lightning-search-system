@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Calendar, Clock, Zap, Download, Building2, User, FileText, Shield, Info, AlertTriangle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, MapPin, Calendar, Clock, Zap, Download, Building2, FileText, Shield, Info, AlertTriangle } from 'lucide-react';
 
 const LightningSearchSystem = () => {
   const [currentApp, setCurrentApp] = useState('search'); // search, detail, contractor
@@ -459,20 +459,52 @@ Blitzortung.org - 国際協力型雷観測ネットワーク
                   {[1, 2, 3, 4, 5].map((radius) => (
                     <div
                       key={radius}
-                      className="absolute border-2 border-blue-400 rounded-full"
+                      className="absolute"
                       style={{
                         width: `${radius * 40}px`,
                         height: `${radius * 40}px`,
-                        borderStyle: radius === 5 ? 'solid' : 'dashed'
+                        border: `2px ${radius === 5 ? 'solid' : 'dashed'} #60A5FA`,
+                        borderRadius: '50%',
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        pointerEvents: 'none'
                       }}
                     />
                   ))}
-                  <div className="absolute w-3 h-3 bg-red-500 rounded-full"></div>
-                  <div className="absolute top-2 left-2 text-xs text-gray-600">
-                    中心点: {address}
+                  
+                  {/* 距離ラベル */}
+                  {[1, 2, 3, 4, 5].map((radius) => (
+                    <div
+                      key={`label-${radius}`}
+                      className="absolute text-xs text-blue-700 font-medium bg-white px-1 rounded"
+                      style={{
+                        left: `calc(50% + ${radius * 20 - 8}px)`,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        pointerEvents: 'none'
+                      }}
+                    >
+                      {radius}km
+                    </div>
+                  ))}
+                  
+                  {/* 中心点 */}
+                  <div 
+                    className="absolute w-3 h-3 bg-red-500 rounded-full"
+                    style={{
+                      left: '50%',
+                      top: '50%',
+                      transform: 'translate(-50%, -50%)'
+                    }}
+                  ></div>
+                  
+                  {/* 情報ラベル */}
+                  <div className="absolute top-2 left-2 text-xs text-gray-600 bg-white p-1 rounded">
+                    📍 中心点: {address || '住所未入力'}
                   </div>
-                  <div className="absolute bottom-2 right-2 text-xs text-gray-600">
-                    同心円: 1-5km (1kmごと)
+                  <div className="absolute bottom-2 right-2 text-xs text-gray-600 bg-white p-1 rounded">
+                    🎯 同心円: 1-5km (フランクリンジャパン準拠)
                   </div>
                 </div>
               </div>
